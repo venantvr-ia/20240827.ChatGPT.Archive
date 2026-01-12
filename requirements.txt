@@ -1,0 +1,12 @@
+openai
+langchain
+python-dotenv
+openai
+langchain-community
+pydantic
+langchain-openai
+beautifulsoup4
+Flask
+protobuf
+google-genai
+marko
