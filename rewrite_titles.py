@@ -29,10 +29,12 @@ Status possibles:
     FAILED    - Échec du traitement
 """
 
+import hashlib
 import json
 import os
 import sys
 import time
+import unicodedata
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -58,6 +60,14 @@ client = genai.Client(api_key=API_KEY)
 
 
 # --- GESTION DES FICHIERS DE TRAVAIL ---
+def normalize_filename(name):
+    """Supprime les accents d'un nom de fichier pour compatibilité ASCII."""
+    # Décompose les caractères accentués (é -> e + accent combinant)
+    # puis supprime les accents (catégorie 'Mn' = Mark, Nonspacing)
+    normalized = unicodedata.normalize('NFD', name)
+    return ''.join(c for c in normalized if unicodedata.category(c) != 'Mn')
+
+
 def get_job_file(source_path):
     """Retourne le chemin du fichier .job pour un fichier source."""
     # .htaccess.md -> .htaccess.md.job
@@ -191,13 +201,25 @@ def prepare_jsonl_for_file(source_path, sections):
 def submit_batch_job(jsonl_path, source_path, section_keys):
     """Lance le job batch et sauvegarde dans .md.job (non bloquant)."""
     print("  Upload vers Google AI Studio...")
-    file_metadata = client.files.upload(file=jsonl_path, config=UploadFileConfig(mime_type='application/jsonl'))
+    # Google n'accepte que minuscules, chiffres et tirets pour le name
+    # On utilise display_name pour le nom lisible
+    file_hash = hashlib.md5(source_path.name.encode('utf-8')).hexdigest()[:16].lower()
+    upload_name = f"batch-{file_hash}"
+    with open(jsonl_path, 'rb') as f:
+        file_metadata = client.files.upload(
+            file=f,
+            config=UploadFileConfig(
+                name=upload_name,
+                display_name=source_path.name,
+                mime_type='application/jsonl'
+            )
+        )
 
     print(f"  Lancement du Job Batch sur {MODEL_ID}...")
     job = client.batches.create(
         model=MODEL_ID,
         src=file_metadata.name,
-        config=CreateBatchJobConfig(display_name=f"Reformat_{source_path.stem}")
+        config=CreateBatchJobConfig(display_name=f"Reformat_{normalize_filename(source_path.stem)}")
     )
 
     job_id = job.name
@@ -370,7 +392,7 @@ def check_all_pending_jobs():
 
 
 # --- MAIN ---
-DEFAULT_LIMIT = 5
+DEFAULT_LIMIT = 10
 
 
 def get_limit(args):

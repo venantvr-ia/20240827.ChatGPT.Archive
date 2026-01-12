@@ -1,0 +1,120 @@
+[
+  {
+    "title": "Example Conversation",
+    "create_time": 1700000000.000000,
+    "update_time": 1700000100.000000,
+    "mapping": {
+      "00000000-0000-0000-0000-000000000001": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "message": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "author": {
+            "role": "system",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": null,
+          "update_time": null,
+          "content": {
+            "content_type": "text",
+            "parts": [""]
+          },
+          "status": "finished_successfully",
+          "end_turn": true,
+          "weight": 0.0,
+          "metadata": {
+            "is_visually_hidden_from_conversation": true
+          },
+          "recipient": "all",
+          "channel": null
+        },
+        "parent": "00000000-0000-0000-0000-000000000000",
+        "children": ["00000000-0000-0000-0000-000000000002"]
+      },
+      "00000000-0000-0000-0000-000000000000": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "message": null,
+        "parent": null,
+        "children": ["00000000-0000-0000-0000-000000000001"]
+      },
+      "00000000-0000-0000-0000-000000000002": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "message": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "author": {
+            "role": "user",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1700000010.000000,
+          "update_time": null,
+          "content": {
+            "content_type": "text",
+            "parts": ["Lorem ipsum dolor sit amet?"]
+          },
+          "status": "finished_successfully",
+          "end_turn": null,
+          "weight": 1.0,
+          "metadata": {},
+          "recipient": "all",
+          "channel": null
+        },
+        "parent": "00000000-0000-0000-0000-000000000001",
+        "children": ["00000000-0000-0000-0000-000000000003"]
+      },
+      "00000000-0000-0000-0000-000000000003": {
+        "id": "00000000-0000-0000-0000-000000000003",
+        "message": {
+          "id": "00000000-0000-0000-0000-000000000003",
+          "author": {
+            "role": "assistant",
+            "name": null,
+            "metadata": {}
+          },
+          "create_time": 1700000020.000000,
+          "update_time": null,
+          "content": {
+            "content_type": "text",
+            "parts": ["Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]
+          },
+          "status": "finished_successfully",
+          "end_turn": true,
+          "weight": 1.0,
+          "metadata": {
+            "finish_details": {
+              "type": "stop",
+              "stop_tokens": [100260]
+            },
+            "citations": [],
+            "content_references": [],
+            "gizmo_id": null,
+            "is_complete": true,
+            "message_type": null,
+            "model_slug": "gpt-4",
+            "default_model_slug": "gpt-4",
+            "parent_id": "00000000-0000-0000-0000-000000000002",
+            "request_id": "00000000000000000000000000000000",
+            "timestamp_": "absolute"
+          },
+          "recipient": "all",
+          "channel": null
+        },
+        "parent": "00000000-0000-0000-0000-000000000002",
+        "children": []
+      }
+    },
+    "moderation_results": [],
+    "current_node": "00000000-0000-0000-0000-000000000003",
+    "plugin_ids": null,
+    "conversation_id": "00000000-0000-0000-0000-000000000010",
+    "conversation_template_id": null,
+    "gizmo_id": null,
+    "gizmo_type": null,
+    "is_archived": false,
+    "safe_urls": [],
+    "default_model_slug": "gpt-4",
+    "conversation_origin": null,
+    "voice": null,
+    "async_status": null
+  }
+]
